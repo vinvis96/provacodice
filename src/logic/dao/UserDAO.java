@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import logic.bean.UserBean;
+import logic.entity.User;
 import logic.utils.ConnectionDB;
 
 public class UserDAO {
@@ -212,6 +215,70 @@ public class UserDAO {
 		}
 
 		return null;
+	}
+	
+	//////////////////////////////
+	
+	public static List<User> getUserList(){
+		
+		List<User> userList = new ArrayList<User>();
+		
+		ResultSet tempRs;
+		
+		try {
+			
+			con = ConnectionDB.dbConn();
+			Statement tempSt = con.createStatement();
+			String sql = "SELECT * FROM utenti";
+			
+			tempRs = tempSt.executeQuery(sql);
+			
+			while(tempRs.next()) {
+				
+				User user = new User();
+				user.setId(tempRs.getInt(1));
+				user.setUsername(tempRs.getString(2));
+				user.setPassword(tempRs.getString(3)); //Sarebbe meglio di no
+				user.setEmail(tempRs.getString(4));
+				user.setFirstname(tempRs.getString(5));
+				user.setLastname(tempRs.getString(6));
+				user.setSubsDate(tempRs.getString(7));
+				user.setBirthDate(tempRs.getString(8));
+				user.setZone(tempRs.getString(9));
+				user.setInstrPlayed(tempRs.getString(10));
+				user.setBand(tempRs.getInt(11));
+				user.setNameBand(tempRs.getString(12));
+				
+				userList.add(user);
+								
+			}
+			
+			con.close();
+		} catch (SQLException e){
+			
+			e.printStackTrace();
+		}
+		
+		return userList;
+	}
+
+	public static void modifyProfile(UserBean user) {
+		
+		try {
+			con = ConnectionDB.dbConn();
+			Statement tempSt = con.createStatement();
+			String sql = "UPDATE utenti SET firstname = '" + user.getFirstname() + "', "
+					+ "lastname = '" + user.getLastname() + "', " + "birthdate = '" + user.getBirthDate() 
+					+ "', " + "zone = '" + user.getZone() + "', " + "instrplayed = '" + user.getInstrPlayed() 
+					+ "', " + "band = '" + user.getBand() + "', " + "nameband = '" + user.getNameBand() + "' WHERE username = '" + user.getUsername() + "'";
+			tempSt.executeQuery(sql);
+			con.close();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
 	}
 
 }

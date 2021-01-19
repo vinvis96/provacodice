@@ -150,17 +150,12 @@ public class HomepageGUI {
 		root.setAlignment(Pos.CENTER);
 				
 		if(win.getUser().getFlag() == 0) {
-			
-			/*manageReportBTN.setVisible(false);
-			manageUsersBTN.setVisible(false);
-			manageRulesBTN.setVisible(false);*/
+
 			root.getChildren().addAll(title, welcome, hbox, samplePostBTN, searchMemberBandBTN, topicBTN, rankingBTN,
 					doAReportBTN, viewRulesBTN);
 			
 		} else {
 			
-		/*	doAReportBTN.setVisible(false);
-			viewRulesBTN.setVisible(false);*/
 			root.getChildren().addAll(title, welcome, hbox, samplePostBTN, searchMemberBandBTN, topicBTN, rankingBTN,
 				 manageReportBTN, manageRulesBTN, manageUsersBTN);
 		}

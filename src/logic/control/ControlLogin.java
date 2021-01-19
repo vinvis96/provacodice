@@ -56,7 +56,6 @@ public class ControlLogin {
 			
 			user.setUsername(usBean.getUsername());
 			win.setUser(user);
-			System.out.println(Thread.activeCount());
 			win.loadHomePage();
 
 		}

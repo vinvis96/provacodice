@@ -30,7 +30,7 @@ public class TopicGUI {
 
 			public void handle(ActionEvent event) {
 
-				//win.loadHomePage();
+				win.loadHomePage();
 			}
 		});
 
@@ -62,7 +62,7 @@ public class TopicGUI {
 
 			public void handle(ActionEvent event) {
 
-				//win.loadHomePage();
+				win.loadHomePage();
 			}
 
 		});

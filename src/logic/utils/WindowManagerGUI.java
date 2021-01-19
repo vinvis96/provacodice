@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.boundary.LoginGUI;
+import logic.boundary.ProfileGUI;
 import logic.boundary.RecoverDataGUI;
 import logic.boundary.RegisterGUI;
 import logic.boundary.SamplePostGUI;
@@ -33,6 +34,7 @@ public class WindowManagerGUI extends Application {
 	private Scene InsertPostPage;
 	private Scene FindPostPage;
 	private Scene ManagePostPage;
+	private Scene ModifyProfilePage;
 	
 	private static Stage myStage;
 
@@ -48,6 +50,14 @@ public class WindowManagerGUI extends Application {
 		loadLoginPage();
 		myStage.show();
 		
+	}
+	
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
 	}
 
 	public void loadLoginPage() {
@@ -81,8 +91,8 @@ public class WindowManagerGUI extends Application {
 	}
 
 	public void loadProfilePage() {
-		// VBox Profile = ProfileGUI.getProfileScene();
-		/* ProfilePage = new Scene(Profile,500,500); */
+		VBox Profile = ProfileGUI.getProfileScene();
+		ProfilePage = new Scene(Profile,500,500); 
 		WindowManagerGUI.myStage.setScene(ProfilePage);
 	}
 
@@ -144,20 +154,17 @@ public class WindowManagerGUI extends Application {
 		WindowManagerGUI.myStage.setScene(ManagePostPage);		
 	} 
 	
-	public IUser getUser() {
-		return user;
+	public void loadModifyProfilePage() {
+		VBox ModifyProfile = ModifyProfileGUI.getModifyProfileScene();
+		ModifyProfilePage = new Scene(ModifyProfile, 500, 500);
+		WindowManagerGUI.myStage.setScene(ModifyProfilePage);	
 	}
-
-	public void setUser(IUser user) {
-		this.user = user;
-	}
+	
 	
 	public static WindowManagerGUI getWindowManagerGUIInstance() {
 		if (WindowManagerGUI.instance == null)
 			WindowManagerGUI.instance = new WindowManagerGUI();
 		return instance;
 	}
-
-	
 
 }
