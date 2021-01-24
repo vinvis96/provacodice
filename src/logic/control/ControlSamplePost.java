@@ -81,7 +81,6 @@ public class ControlSamplePost {
 		post.setAutore(win.getUser().getUsername());
 		
 		post.setTitolo(postBean.getTitolo());
-		post.setArgomento(postBean.getArgomento());
 		post.setDescrizione(postBean.getDescrizione());
 		post.setNomeSample(postBean.getNomeSample());
 				
@@ -110,7 +109,7 @@ public class ControlSamplePost {
 		
 		for (i = 0; i < post.size(); i++) {
 						
-			if(post.get(i).getAutore().equals(username) && post.get(i).getNomeSample() != null) {
+			if(post.get(i).getAutore().equals(username) && !post.get(i).getNomeSample().equals("null")) {
 								
 				PostBean postBean = new PostBean();
 				
@@ -119,8 +118,6 @@ public class ControlSamplePost {
 				postBean.setAutore(post.get(i).getAutore());
 				postBean.setDescrizione(post.get(i).getDescrizione());
 				postBean.setNomeSample(post.get(i).getNomeSample());
-				postBean.setArgomento(post.get(i).getArgomento());
-				postBean.setRisolto(post.get(i).getRisolto());
 				
 				postBeanList.add(postBean);
 				
@@ -208,6 +205,34 @@ public class ControlSamplePost {
 		}
 		
 		return pos;
+	}
+
+	public List<PostBean> getSamplePosts() {
+		
+		int i;
+		
+		List<Post> post = PostDAO.getPostList();
+		
+		List<PostBean> postBeanList = new ArrayList<PostBean>();		
+		
+		for (i = 0; i < post.size(); i++) {
+			
+			if(!post.get(i).getNomeSample().equals("null")) {
+				
+				PostBean postBean = new PostBean();
+				
+				postBean.setId(post.get(i).getId());
+				postBean.setTitolo(post.get(i).getTitolo());
+				postBean.setAutore(post.get(i).getAutore());
+				postBean.setDescrizione(post.get(i).getDescrizione());
+				postBean.setNomeSample(post.get(i).getNomeSample());
+
+				postBeanList.add(postBean);	
+			}
+				
+		}
+		
+		return postBeanList;
 	}
 	
 }

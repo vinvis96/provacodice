@@ -11,13 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.PostBean;
+import logic.control.ControlRequestPost;
 import logic.control.ControlSamplePost;
 
 public class FindPostGUI {
 	
-	public static VBox getFindPostScene() {
-		
-		ControlSamplePost ctrlPost = new ControlSamplePost();
+	public static VBox getFindPostScene(int type) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -57,36 +56,97 @@ public class FindPostGUI {
 			}
 		});
 		
-		searchBTN.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-
-				List<PostBean> postList = ctrlPost.filterSamplePostByUsername(usernameField.getText());
-				
-				results.setVisible(true);
-				
-				
-				
-				int i;
-				
-				for(i=0; i<postList.size(); i++) {
-										
-					results.setText(results.getText() + "Post #" + Integer.toString(i+1) + "\nTitolo: " + postList.get(i).getTitolo() +
-							"\nAutore: " + postList.get(i).getAutore() + "\n\nDescrizione: " + postList.get(i).getDescrizione() +
-							"\n\nNome Sample: " + postList.get(i).getNomeSample() + "\n\n");
-				}
-				
-				
-				
-			}
-		});
+		System.out.println(type);
 		
+		switch(type) {
+		
+		case 1:
+			
+			ControlSamplePost ctrlSamplePost = new ControlSamplePost();
+			
+			searchBTN.setOnAction(new EventHandler<ActionEvent>() {
+
+				public void handle(ActionEvent event) {
+
+					List<PostBean> postList = ctrlSamplePost.filterSamplePostByUsername(usernameField.getText());
+					
+					results.setVisible(true);
+	
+					int i;
+					
+					System.out.println("Ciao");
+					
+					if(postList.size() == 0) {
+						
+						results.setText("No posts from this user");
+						
+					} else {
+						
+						for(i=0; i<postList.size(); i++) {
+							
+							results.setText(results.getText() + "Post #" + Integer.toString(i+1) + "\nTitolo: " + postList.get(i).getTitolo() +
+									"\nAutore: " + postList.get(i).getAutore() + "\n\nDescrizione: " + postList.get(i).getDescrizione() +
+									"\n\nNome Sample: " + postList.get(i).getNomeSample() + "\n\n");
+						}
+						
+					}	
+				}
+			});
+			
+			break;
+			
+		case 2:
+			
+			ControlRequestPost ctrlRequestPost = new ControlRequestPost();
+			
+			searchBTN.setOnAction(new EventHandler<ActionEvent>() {
+
+				public void handle(ActionEvent event) {
+
+					List<PostBean> postList = ctrlRequestPost.filterRequestPostByUsername(usernameField.getText());
+					
+					results.setVisible(true);	
+					
+					int i;
+					
+					if(postList.size() == 0) {
+						
+						results.setText("No posts from this user");
+						
+					} else {
+						
+						for(i=0; i<postList.size(); i++) {
+							
+							results.setText(results.getText() + "Post #" + Integer.toString(i+1) + "\nTitolo: " + postList.get(i).getTitolo() +
+									"\nAutore: " + postList.get(i).getAutore() + "\n\nDescrizione: " + postList.get(i).getDescrizione() + "\n\n");
+						}
+						
+					}	
+				}
+			});
+			
+			break;
+			
+		}
+
 		backBTN.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 
 				results.clear();
-				win.loadSamplePostPage();
+				
+				switch(type) {
+				
+				case 1:
+					win.loadSamplePostPage();
+					break;
+				
+				case 2:
+					win.loadMemberBandPage();
+					break;
+					
+				}
+				
 			}
 		});
 		

@@ -112,6 +112,8 @@ public class ProfileGUI {
 		modifyDataBTN.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
+				
+				win.loadModifyDataPage();
 
 			}
 		});

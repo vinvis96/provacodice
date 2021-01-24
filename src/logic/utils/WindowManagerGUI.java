@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.boundary.LoginGUI;
+import logic.boundary.MemberBandRequestGUI;
 import logic.boundary.ProfileGUI;
 import logic.boundary.RecoverDataGUI;
 import logic.boundary.RegisterGUI;
@@ -31,10 +32,13 @@ public class WindowManagerGUI extends Application {
 	private Scene RankingPage;
 	private Scene DoAReportPage;
 	private Scene ViewRulesPage;
-	private Scene InsertPostPage;
+	private Scene InsertSamplePostPage;
 	private Scene FindPostPage;
-	private Scene ManagePostPage;
+	private Scene ManageSamplePostPage;
 	private Scene ModifyProfilePage;
+	private Scene ModifyDataPage;
+	private Scene InsertRequestPostPage;
+	private Scene ManageRequestPostPage;
 	
 	private static Stage myStage;
 
@@ -58,6 +62,12 @@ public class WindowManagerGUI extends Application {
 
 	public void setUser(IUser user) {
 		this.user = user;
+	}
+	
+	public static WindowManagerGUI getWindowManagerGUIInstance() {
+		if (WindowManagerGUI.instance == null)
+			WindowManagerGUI.instance = new WindowManagerGUI();
+		return instance;
 	}
 
 	public void loadLoginPage() {
@@ -103,8 +113,8 @@ public class WindowManagerGUI extends Application {
 	}
 
 	public void loadMemberBandPage() {
-		// VBox MemberBand = MemberBandRequestGUI.getMemberBandScene();
-		/* MemberBandPage = new Scene(MemberBand,500,500); */
+		VBox MemberBand = MemberBandRequestGUI.getMemberBandScene();
+		MemberBandPage = new Scene(MemberBand,500,500); 
 		WindowManagerGUI.myStage.setScene(MemberBandPage);
 	}
 
@@ -131,27 +141,25 @@ public class WindowManagerGUI extends Application {
 		ViewRulesPage = new Scene(ViewRules, 500, 500);
 		WindowManagerGUI.myStage.setScene(ViewRulesPage);
 	}
-
-	public void loadInsertPostPage() {
-
-		VBox InsertPost = InsertPostGUI.getInsertPostScene();
-		InsertPostPage = new Scene(InsertPost, 500, 500);
-		WindowManagerGUI.myStage.setScene(InsertPostPage);
-
-	}
 	
-	public void loadFindPostPage() {
-
-		VBox FindPost = FindPostGUI.getFindPostScene();
+	public void loadFindPostPage(int i) {
+		VBox FindPost = FindPostGUI.getFindPostScene(i);
 		FindPostPage = new Scene(FindPost, 500, 500);
 		WindowManagerGUI.myStage.setScene(FindPostPage);
 
 	}
+
+	public void loadInsertSamplePostPage() {
+		VBox InsertSamplePost = InsertSamplePostGUI.getInsertSamplePostScene();
+		InsertSamplePostPage = new Scene(InsertSamplePost, 500, 500);
+		WindowManagerGUI.myStage.setScene(InsertSamplePostPage);
+
+	}
 	
-	public void loadManagePostPage() {
-		VBox ManagePost = ManagePostGUI.getManagePostScene();
-		ManagePostPage = new Scene(ManagePost, 500, 500);
-		WindowManagerGUI.myStage.setScene(ManagePostPage);		
+	public void loadManageSamplePostPage() {
+		VBox ManagePost = ManageSamplePostGUI.getManageSamplePostScene();
+		ManageSamplePostPage = new Scene(ManagePost, 500, 500);
+		WindowManagerGUI.myStage.setScene(ManageSamplePostPage);		
 	} 
 	
 	public void loadModifyProfilePage() {
@@ -160,11 +168,22 @@ public class WindowManagerGUI extends Application {
 		WindowManagerGUI.myStage.setScene(ModifyProfilePage);	
 	}
 	
-	
-	public static WindowManagerGUI getWindowManagerGUIInstance() {
-		if (WindowManagerGUI.instance == null)
-			WindowManagerGUI.instance = new WindowManagerGUI();
-		return instance;
+	public void loadModifyDataPage() {
+		VBox ModifyData = ModifyDataGUI.getModifyDataScene();
+		ModifyDataPage = new Scene(ModifyData, 500, 500);
+		WindowManagerGUI.myStage.setScene(ModifyDataPage);		
+	}
+
+	public void loadInsertRequestPostPage() {
+		VBox InsertRequestPost = InsertRequestPostGUI.getInsertRequestPostScene();
+		InsertRequestPostPage = new Scene(InsertRequestPost, 500, 500);
+		WindowManagerGUI.myStage.setScene(InsertRequestPostPage);		
+	}
+
+	public void loadManageRequestPostPage() {
+		VBox ManageRequestPost = ManageRequestPostGUI.getManageRequestPostScene();
+		ManageRequestPostPage = new Scene(ManageRequestPost, 500, 500);
+		WindowManagerGUI.myStage.setScene(ManageRequestPostPage);	
 	}
 
 }

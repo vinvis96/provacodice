@@ -1,6 +1,7 @@
 package logic.control;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -21,6 +22,15 @@ public class ControlProfile {
 		alert.showAndWait();
 	}
 
+	public void sendEmailNotValidAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Modify Email Error");
+		alert.setContentText("Error: Email format not valid. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public UserBean getCurrentUserData() {
 		
@@ -66,5 +76,15 @@ public class ControlProfile {
 			}
 		}
 		
+	}
+	
+	public boolean checkIfEmailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
+
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
 	}
 }
