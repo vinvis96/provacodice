@@ -5,9 +5,11 @@ import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -22,6 +24,26 @@ public class InsertSamplePostGUI {
 	static Media media;
 	static MediaPlayer mediaPlayer;
 	static File fl;
+	
+	public static void insertSamplePostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Insert Post Success");
+		alert.setContentText("Success! Your Post has been inserted!");
+
+		alert.showAndWait();
+	}
+
+	public static void insertSamplePostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Insert Post Error");
+		alert.setContentText("Error: You didn't insert any file. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getInsertSamplePostScene() {
 		
@@ -115,7 +137,7 @@ public class InsertSamplePostGUI {
 
 				if (fl == null) {
 					
-					ctrlSamplePost.insertSamplePostErrorAlert();
+					insertSamplePostErrorAlert();
 					win.loadSamplePostPage();
 
 				} else {
@@ -131,9 +153,18 @@ public class InsertSamplePostGUI {
 					playBTN.setVisible(false);
 					pauseBTN.setVisible(false);
 					
-					ctrlSamplePost.insertSamplePost(postBean);
+					int res = ctrlSamplePost.insertSamplePost(postBean);
 
+					if(res==1) {
+						
+						insertSamplePostAlert();
+						
+					} else {
+						
+						insertSamplePostErrorAlert();
+					}
 					
+					win.loadSamplePostPage();
 				}
 
 			}

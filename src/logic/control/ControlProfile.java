@@ -3,34 +3,12 @@ package logic.control;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import logic.bean.UserBean;
 import logic.dao.UserDAO;
 import logic.entity.User;
 import logic.utils.WindowManagerGUI;
 
 public class ControlProfile {
-	
-	public void modifyUserDataAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("User Data Modified Successfully");
-		alert.setContentText("Success! Your data has been modified!");
-
-		alert.showAndWait();
-	}
-
-	public void sendEmailNotValidAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Modify Email Error");
-		alert.setContentText("Error: Email format not valid. Retry!");
-
-		alert.showAndWait();
-	}
 
 	public UserBean getCurrentUserData() {
 		
@@ -61,20 +39,24 @@ public class ControlProfile {
 		return userBean;
 	}
 
-	public void modifyCurrentUserProfile(UserBean user) {
+	public int modifyCurrentUserProfile(UserBean user) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		int i;
 		List<User> userList = UserDAO.getUserList();
+		
+		int check = -1;
 		
 		for(i=0;i<userList.size();i++) {
 			
 			if(userList.get(i).getUsername().equals(win.getUser().getUsername())) {
 				
 				UserDAO.modifyProfile(user);
-				modifyUserDataAlert();
+				check = 1;
 			}
 		}
+		
+		return check;
 		
 	}
 	

@@ -3,10 +3,11 @@ package logic.boundary;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.UserBean;
@@ -15,8 +16,34 @@ import logic.utils.WindowManagerGUI;
 
 public class LoginGUI {
 
-	public LoginGUI() {
+	public static void sendUsernameAlert() {
 
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Login Error");
+		alert.setContentText("Error: You didn't insert Username. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendPasswordAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Login Error");
+		alert.setContentText("Error: You didn't insert Password. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendDataNotFoundAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Login Error");
+		alert.setContentText("Error: Data not found. Retry!");
+
+		alert.showAndWait();
 	}
 
 	public static VBox getLoginPageScene() {
@@ -54,18 +81,27 @@ public class LoginGUI {
 
 				if (usernameField.getText() == null || usernameField.getText().trim().isEmpty()) {
 
-					ctrlLogin.sendUsernameAlert();
+					sendUsernameAlert();
 
 				} else if (passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
 
-					ctrlLogin.sendPasswordAlert();
+					sendPasswordAlert();
 
 				} else {
 					
 					usBean.setUsername(usernameField.getText());
 					usBean.setPassword(passwordField.getText());
 
-					ctrlLogin.checkIfRegistered(usBean);
+					int res = ctrlLogin.checkIfRegistered(usBean);
+					
+					if(res==-1) {
+						
+						sendDataNotFoundAlert();
+						
+					} else {
+						
+						win.loadHomePage();
+					}
 
 				}
 			}

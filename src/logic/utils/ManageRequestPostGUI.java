@@ -5,9 +5,11 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.PostBean;
@@ -16,6 +18,46 @@ import logic.control.ControlRequestPost;
 public class ManageRequestPostGUI {
 	
 	static int cmd = -1;
+	
+	public static void modifyRequestPostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Modify Successfully");
+		alert.setContentText("Success! Your Post has been modified!");
+
+		alert.showAndWait();
+	}
+
+	public static void modifyRequestPostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Modify Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
+	
+	public static void removeRequestPostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Removed Successfully");
+		alert.setContentText("Success! Your Post has been removed!");
+
+		alert.showAndWait();
+	}
+
+	public static void removeRequestPostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Remove Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getManageRequestPostScene() {
 		
@@ -139,7 +181,16 @@ public class ManageRequestPostGUI {
 				
 					case 0: //remove
 						
-						ctrlPost.removeRequestPost(Integer.parseInt(idField.getText())-1);
+						int rem = ctrlPost.removeRequestPost(Integer.parseInt(idField.getText())-1);
+						
+						if(rem == -1) {
+							
+							removeRequestPostErrorAlert();
+							
+						} else {
+							
+							removeRequestPostAlert();
+						}
 						
 						modifyPostBTN.setVisible(true);
 						
@@ -150,13 +201,13 @@ public class ManageRequestPostGUI {
 						idField.setVisible(false);
 						cmd = -1;
 						
+						win.loadMemberBandPage();
+						
 						break;
 						
 					case 1: //modify
 						
 						int res = ctrlPost.checkId(Integer.parseInt(idField.getText())-1);
-						
-						System.out.println(res);
 						
 						if(res == -1) {
 							
@@ -169,7 +220,8 @@ public class ManageRequestPostGUI {
 							textModify.setVisible(false);
 							idField.clear();
 							idField.setVisible(false);
-							
+							modifyRequestPostErrorAlert();
+							win.loadMemberBandPage();
 							break;
 							
 						}
@@ -193,7 +245,16 @@ public class ManageRequestPostGUI {
 						postBean.setTitolo(newTitoloField.getText());
 						postBean.setDescrizione(newDescrizioneField.getText());
 						
-						ctrlPost.modifyRequestPost(postBean, Integer.parseInt(idField.getText()) -1);
+						int mod = ctrlPost.modifyRequestPost(postBean, Integer.parseInt(idField.getText()) -1);
+						
+						if(mod == -1) {
+							
+							modifyRequestPostErrorAlert();
+							
+						} else {
+							
+							modifyRequestPostAlert();
+						}
 						
 						cmd = -1;
 						
@@ -211,6 +272,8 @@ public class ManageRequestPostGUI {
 						newTitoloField.clear();
 						newDescrizioneField.setVisible(false);
 						newDescrizioneField.clear();
+						
+						win.loadMemberBandPage();
 				}				
 			}
 		});

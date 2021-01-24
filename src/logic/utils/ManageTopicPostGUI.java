@@ -5,9 +5,11 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.PostBean;
@@ -16,6 +18,46 @@ import logic.control.ControlTopicPost;
 public class ManageTopicPostGUI {
 
 	static int cmd = -1;
+	
+	public static void removeTopicPostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Removed Successfully");
+		alert.setContentText("Success! Your Post has been removed!");
+
+		alert.showAndWait();
+	}
+
+	public static void removeTopicPostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Remove Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
+	
+	public static void modifyTopicPostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Modify Successfully");
+		alert.setContentText("Success! Your Post has been modified!");
+
+		alert.showAndWait();
+	}
+
+	public static void modifyTopicPostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Modify Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
 	
 	public static VBox getManageTopicPostScene() {
 		
@@ -149,7 +191,16 @@ public class ManageTopicPostGUI {
 				
 					case 0: //remove
 						
-						ctrlPost.removeTopicPost(Integer.parseInt(idField.getText())-1);
+						int rem = ctrlPost.removeTopicPost(Integer.parseInt(idField.getText())-1);
+						
+						if(rem == -1) {
+							
+							removeTopicPostErrorAlert();
+							
+						} else {
+							
+							removeTopicPostAlert();
+						}
 						
 						modifyPostBTN.setVisible(true);
 						
@@ -160,14 +211,14 @@ public class ManageTopicPostGUI {
 						idField.setVisible(false);
 						cmd = -1;
 						
+						win.loadTopicPage();
+						
 						break;
 						
 					case 1: //modify
 						
 						int res = ctrlPost.checkId(Integer.parseInt(idField.getText())-1);
-						
-						System.out.println(res);
-						
+												
 						if(res == -1) {
 							
 							cmd = -1;
@@ -179,6 +230,9 @@ public class ManageTopicPostGUI {
 							textModify.setVisible(false);
 							idField.clear();
 							idField.setVisible(false);
+							modifyTopicPostErrorAlert();
+							
+							win.loadTopicPage();
 							
 							break;
 							
@@ -207,7 +261,16 @@ public class ManageTopicPostGUI {
 						postBean.setDescrizione(newDescrizioneField.getText());
 						postBean.setArgomento(newTopicField.getText());
 						
-						ctrlPost.modifyTopicPost(postBean, Integer.parseInt(idField.getText()) -1);
+						int mod = ctrlPost.modifyTopicPost(postBean, Integer.parseInt(idField.getText()) -1);
+						
+						if(mod==-1) {
+							
+							modifyTopicPostErrorAlert();
+							
+						} else {
+							 
+							modifyTopicPostAlert();
+						}
 						
 						cmd = -1;
 						
@@ -228,6 +291,9 @@ public class ManageTopicPostGUI {
 						newDescrizioneField.clear();
 						newTopicField.setVisible(false);
 						newTopicField.clear();
+						
+						win.loadTopicPage(); 
+						break;
 						
 				}				
 			}

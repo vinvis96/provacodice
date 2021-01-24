@@ -5,9 +5,11 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.PostBean;
@@ -16,6 +18,46 @@ import logic.control.ControlSamplePost;
 public class ManageSamplePostGUI {
 	
 	static int cmd = -1;
+	
+	public static void removeSamplePostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Removed Successfully");
+		alert.setContentText("Success! Your Post has been removed!");
+
+		alert.showAndWait();
+	}
+
+	public static void removeSamplePostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Remove Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
+	
+	public static void modifySamplePostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Post Modify Successfully");
+		alert.setContentText("Success! Your Post has been modified!");
+
+		alert.showAndWait();
+	}
+
+	public static void modifySamplePostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Modify Post Error");
+		alert.setContentText("Error: You've inserted an id not valid. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getManageSamplePostScene() {
 		
@@ -141,7 +183,16 @@ public class ManageSamplePostGUI {
 				
 					case 0: //remove
 						
-						ctrlPost.removeSamplePost(Integer.parseInt(idField.getText())-1);
+						int rem = ctrlPost.removeSamplePost(Integer.parseInt(idField.getText())-1);
+						
+						if(rem == -1) {
+							
+							removeSamplePostErrorAlert();
+							
+						} else {
+							
+							removeSamplePostAlert();
+						}
 						
 						modifyPostBTN.setVisible(true);
 						
@@ -152,13 +203,13 @@ public class ManageSamplePostGUI {
 						idField.setVisible(false);
 						cmd = -1;
 						
+						win.loadSamplePostPage();
+						
 						break;
 						
 					case 1: //modify
 						
 						int res = ctrlPost.checkId(Integer.parseInt(idField.getText())-1);
-						
-						System.out.println(res);
 						
 						if(res == -1) {
 							
@@ -171,6 +222,10 @@ public class ManageSamplePostGUI {
 							textModify.setVisible(false);
 							idField.clear();
 							idField.setVisible(false);
+							
+							removeSamplePostErrorAlert();
+							
+							win.loadSamplePostPage();
 							
 							break;
 							
@@ -195,7 +250,16 @@ public class ManageSamplePostGUI {
 						postBean.setTitolo(newTitoloField.getText());
 						postBean.setDescrizione(newDescrizioneField.getText());
 						
-						ctrlPost.modifySamplePost(postBean, Integer.parseInt(idField.getText()) -1);
+						int mod = ctrlPost.modifySamplePost(postBean, Integer.parseInt(idField.getText()) -1);
+						
+						if(mod == -1) {
+							
+							modifySamplePostErrorAlert();
+							
+						} else {
+							
+							modifySamplePostAlert();
+						}
 						
 						cmd = -1;
 						
@@ -213,6 +277,8 @@ public class ManageSamplePostGUI {
 						newTitoloField.clear();
 						newDescrizioneField.setVisible(false);
 						newDescrizioneField.clear();
+						
+						win.loadSamplePostPage();
 				}				
 			}
 		});

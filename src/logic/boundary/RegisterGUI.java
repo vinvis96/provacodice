@@ -5,11 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -18,6 +20,126 @@ import logic.control.ControlRegister;
 import logic.utils.WindowManagerGUI;
 
 public class RegisterGUI {
+	
+	public static void sendUsernameAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert Username. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendPasswordAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert Password. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendEmailAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert Email. Retry!");
+
+		alert.showAndWait();
+	}
+	
+	public static void sendBirthDateAlert() {
+		
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert BirthDate. Retry!");
+
+		alert.showAndWait();		
+	}
+
+	public static void sendFirstNameAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert First Name. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendInstrPlayedAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert the Instrument Played. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendNameBandAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: You didn't insert Name of your Band. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendEmailNotValidAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: Email format not valid. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendUsernameAlreadyTakenAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: Username already in use. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendEmailAlreadyTakenAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: Email already in use. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void registrationAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration");
+		alert.setContentText("Success! Your Account has been registrated!");
+
+		alert.showAndWait();
+	}
+	
+	public static void registrationErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration");
+		alert.setContentText("Error: Something went wrong. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getRegisterPageScene() {
 		
@@ -106,35 +228,35 @@ public class RegisterGUI {
 
 				if (usernameField.getText() == null || usernameField.getText().trim().isEmpty()) {
 
-					ctrlRegister.sendUsernameAlert();
+					sendUsernameAlert();
 
 				} else if (passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
 
-					ctrlRegister.sendPasswordAlert();
+					sendPasswordAlert();
 
 				} else if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
 
-					ctrlRegister.sendEmailAlert();
+					sendEmailAlert();
 					
 				} else if (birthDateField.getValue() == null || birthDateField.getValue().toString().trim().isEmpty()) {
 
-						ctrlRegister.sendBirthDateAlert();
+					sendBirthDateAlert();
 
 				} else if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
 
-					ctrlRegister.sendFirstNameAlert();
+					sendFirstNameAlert();
 
 				} else if (instrPlayedField.getText() == null || instrPlayedField.getText().trim().isEmpty()) {
 
-					ctrlRegister.sendInstrPlayedAlert();
+					sendInstrPlayedAlert();
 
 				} else if (bandField.isSelected() && nameBandField.getText().equals("")) {
 
-					ctrlRegister.sendNameBandAlert();
+					sendNameBandAlert();
 
 				} else if (!ctrlRegister.checkIfEmailIsValid(emailField.getText())) {
 
-					ctrlRegister.sendEmailNotValidAlert();
+					sendEmailNotValidAlert();
 					emailField.clear();
 
 				} else {
@@ -155,7 +277,7 @@ public class RegisterGUI {
 
 					if (result.equals("trovato")) {
 
-						ctrlRegister.sendUsernameAlreadyTakenAlert();
+						sendUsernameAlreadyTakenAlert();
 						usernameField.clear();
 
 					} else {
@@ -192,7 +314,16 @@ public class RegisterGUI {
 							usBean.setNameBand(null);
 						}
 
-						ctrlRegister.registerUser(usBean);
+						int reg = ctrlRegister.registerUser(usBean);
+						
+						if(reg == -1) {
+							
+							registrationErrorAlert();
+							win.loadLoginPage();
+						} else {
+							
+							registrationAlert();
+						}
 
 						usernameField.clear();
 						passwordField.clear();
@@ -204,6 +335,8 @@ public class RegisterGUI {
 						instrPlayedField.clear();
 						bandField.setSelected(false);
 						nameBandField.clear();
+						
+						win.loadLoginPage();
 						
 					}
 

@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/987018/Desktop/ISPW/Progetto Social-Music/Librerie DB/mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="lib" path="C:/Users/987018/Desktop/ISPW/Progetto Social-Music/Librerie email/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/987018/Desktop/ISPW/Progetto Social-Music/Librerie email/javax.mail-1.4.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,74 +3,12 @@ package logic.control;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import logic.bean.PostBean;
 import logic.dao.PostDAO;
 import logic.entity.Post;
 import logic.utils.WindowManagerGUI;
 
 public class ControlTopicPost {
-	
-	public void insertTopicPostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Insert Post Success");
-		alert.setContentText("Success! Your Post has been inserted!");
-
-		alert.showAndWait();
-	}
-	
-	public void insertTopicPostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Remove Post Error");
-		alert.setContentText("Error: You can't insert post with empty fields. Retry!");
-
-		alert.showAndWait();
-	}
-	
-	public void removeTopicPostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Post Removed Successfully");
-		alert.setContentText("Success! Your Post has been removed!");
-
-		alert.showAndWait();
-	}
-
-	public void removeTopicPostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Remove Post Error");
-		alert.setContentText("Error: You've inserted an id not valid. Retry!");
-
-		alert.showAndWait();
-	}
-	
-	public void modifyTopicPostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Post Modify Successfully");
-		alert.setContentText("Success! Your Post has been modified!");
-
-		alert.showAndWait();
-	}
-
-	public void modifyTopicPostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Modify Post Error");
-		alert.setContentText("Error: You've inserted an id not valid. Retry!");
-
-		alert.showAndWait();
-	}
 
 	public List<PostBean> getTopicPosts() {
 		
@@ -131,14 +69,11 @@ public class ControlTopicPost {
 		return postBeanList;
 	}
 
-	public void insertTopicPost(PostBean postBean) {
-		
-		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();	
-		
+	public int insertTopicPost(PostBean postBean) {
+				
 		if(postBean.getArgomento().length()==0 || postBean.getTitolo().length()==0 || postBean.getDescrizione().length()==0){
 			
-			insertTopicPostErrorAlert();
-			win.loadTopicPage();
+			return -1;
 			
 		} else {
 			
@@ -151,13 +86,12 @@ public class ControlTopicPost {
 					
 			PostDAO.insertPost(post);
 			
-			insertTopicPostAlert();
-			win.loadTopicPage();
+			return 1;
 		}	
 		
 	}
 
-	public void removeTopicPost(int num) {
+	public int removeTopicPost(int num) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -166,11 +100,11 @@ public class ControlTopicPost {
 		if(num>=0 && num<post.size()) {
 						
 			PostDAO.deletePost(post.get(num).getId());
-			removeTopicPostAlert();
+			return 1;
 			
 		} else {
 			
-			removeTopicPostErrorAlert();
+			return -1;
 		}
 		
 	}
@@ -183,14 +117,13 @@ public class ControlTopicPost {
 		
 		if(pos<0 || pos>post.size() ) {
 			
-			removeTopicPostErrorAlert();
 			return -1;
 		}
 		
 		return pos;
 	}
 
-	public void modifyTopicPost(PostBean postBean, int pos) {
+	public int modifyTopicPost(PostBean postBean, int pos) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -210,11 +143,11 @@ public class ControlTopicPost {
 			
 		} else if (postBean.getTitolo().length()==0 && postBean.getDescrizione().length()==0 && postBean.getArgomento().length()==0) {
 			
-			modifyTopicPostErrorAlert();
+			return -1;
 		}
 			
 			PostDAO.modifyPost(post.get(pos).getId(), postBean);
-			modifyTopicPostAlert();
+			return 1;
 	}
 
 }

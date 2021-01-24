@@ -3,83 +3,20 @@ package logic.control;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import logic.bean.PostBean;
 import logic.dao.PostDAO;
 import logic.entity.Post;
 import logic.utils.WindowManagerGUI;
 
 public class ControlSamplePost {
-
-	public void insertSamplePostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Insert Post Success");
-		alert.setContentText("Success! Your Post has been inserted!");
-
-		alert.showAndWait();
-	}
-
-	public void insertSamplePostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Insert Post Error");
-		alert.setContentText("Error: You didn't insert any file. Retry!");
-
-		alert.showAndWait();
-	}
 	
-	public void removeSamplePostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Post Removed Successfully");
-		alert.setContentText("Success! Your Post has been removed!");
-
-		alert.showAndWait();
-	}
-
-	public void removeSamplePostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Remove Post Error");
-		alert.setContentText("Error: You've inserted an id not valid. Retry!");
-
-		alert.showAndWait();
-	}
-	
-	public void modifySamplePostAlert() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Post Modify Successfully");
-		alert.setContentText("Success! Your Post has been modified!");
-
-		alert.showAndWait();
-	}
-
-	public void modifySamplePostErrorAlert() {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Social Music");
-		alert.setHeaderText("Modify Post Error");
-		alert.setContentText("Error: You've inserted an id not valid. Retry!");
-
-		alert.showAndWait();
-	}
-	
-	public void insertSamplePost(PostBean postBean) {
+	public int insertSamplePost(PostBean postBean) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
 		if(postBean.getTitolo().length()==0 || postBean.getDescrizione().length()==0) {
 			
-			insertSamplePostErrorAlert();
-			win.loadSamplePostPage();
+			return -1;
 			
 		} else {
 			
@@ -101,8 +38,7 @@ public class ControlSamplePost {
 				e.printStackTrace();
 			}*/
 			
-			insertSamplePostAlert();
-			win.loadSamplePostPage();
+			return 1;
 		}
 	}
 	
@@ -136,7 +72,7 @@ public class ControlSamplePost {
 	
 	}
 	
-	public void removeSamplePost(int num) {
+	public int removeSamplePost(int num) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -145,16 +81,16 @@ public class ControlSamplePost {
 		if(num>=0 && num<post.size()) {
 						
 			PostDAO.deletePost(post.get(num).getId());
-			removeSamplePostAlert();
+			return 1;
 			
 		} else {
 			
-			removeSamplePostErrorAlert();
+			return -1;
 		}
 		
 	}
 
-	public void modifySamplePost(PostBean postBean, int pos) {
+	public int modifySamplePost(PostBean postBean, int pos) {
 		
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -170,7 +106,7 @@ public class ControlSamplePost {
 			
 			postBean.setDescrizione(post.get(pos).getDescrizione());
 		} else if (postBean.getTitolo().length()==0 && postBean.getDescrizione().length()==0) {
-			modifySamplePostErrorAlert();
+			return -1;
 		}
 		
 		/*for(i=0;i<post.size();i++) {
@@ -192,7 +128,7 @@ public class ControlSamplePost {
 	//	if(pos>=0 && pos<post.size()) {
 			
 			PostDAO.modifyPost(post.get(pos).getId(), postBean);
-			modifySamplePostAlert();
+			return 1;
 			
 	/*	} else {
 			
@@ -208,7 +144,6 @@ public class ControlSamplePost {
 		
 		if(pos<0 || pos>post.size() ) {
 			
-			removeSamplePostErrorAlert();
 			return -1;
 		}
 		

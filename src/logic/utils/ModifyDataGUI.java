@@ -3,8 +3,10 @@ package logic.utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -13,9 +15,28 @@ import logic.bean.UserBean;
 import logic.control.ControlProfile;
 
 public class ModifyDataGUI {
+	
+	public static void modifyUserDataAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("User Data Modified Successfully");
+		alert.setContentText("Success! Your data has been modified!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendEmailNotValidAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Modify Email Error");
+		alert.setContentText("Error: Email format not valid. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getModifyDataScene() {
-
 
 		WindowManagerGUI win = WindowManagerGUI.getWindowManagerGUIInstance();
 		
@@ -106,11 +127,17 @@ public class ModifyDataGUI {
 				
 				if (!ctrlProfile.checkIfEmailIsValid(newEmailField.getText())) {
 
-					ctrlProfile.sendEmailNotValidAlert();
+					sendEmailNotValidAlert();
 
 				} else {
 				
-					ctrlProfile.modifyCurrentUserProfile(user);
+					int res = ctrlProfile.modifyCurrentUserProfile(user);
+					
+					if(res==1) {
+						
+						modifyUserDataAlert();
+					}
+					
 					win.loadProfilePage();
 				}
 				

@@ -3,8 +3,10 @@ package logic.boundary;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.UserBean;
@@ -12,6 +14,46 @@ import logic.control.ControlRecoverData;
 import logic.utils.WindowManagerGUI;
 
 public class RecoverDataGUI {
+	
+	public static void sendUsernameAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Recover Data Error");
+		alert.setContentText("Error: You didn't insert Username. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendEmailAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Recover Data Error");
+		alert.setContentText("Error: You didn't insert Email. Retry!");
+
+		alert.showAndWait();
+	}
+
+	public static void mailSentAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Recover Data");
+		alert.setContentText("Success! Your Data has been sent at your email!");
+
+		alert.showAndWait();
+	}
+
+	public static void sendDataNotFoundAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Recover Data Error");
+		alert.setContentText("Error: Email not found. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getRecoverDataPageScene() {
 		
@@ -45,20 +87,29 @@ public class RecoverDataGUI {
 				
 				if (usernameField.getText() == null || usernameField.getText().trim().isEmpty()) {
 
-					ctrlRecoverData.sendUsernameAlert();
+					sendUsernameAlert();
 
 				} else if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
 
-					ctrlRecoverData.sendEmailAlert();
+					sendEmailAlert();
 
 				} else {
 					
 					usBean.setUsername(usernameField.getText());
 					usBean.setEmail(emailField.getText());
 
-					ctrlRecoverData.sendEmail(usBean);
-
+					int res = ctrlRecoverData.sendEmail(usBean);
 					
+					if(res == -1) {
+						
+						sendDataNotFoundAlert();
+						
+					} else {
+						
+						mailSentAlert();
+					}
+				
+					win.loadLoginPage();
 				}
 			}
 		});

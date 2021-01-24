@@ -3,15 +3,37 @@ package logic.utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.PostBean;
 import logic.control.ControlTopicPost;
 
 public class InsertTopicPostGUI {
+	
+	public static void insertTopicPostAlert() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Insert Post Success");
+		alert.setContentText("Success! Your Post has been inserted!");
+
+		alert.showAndWait();
+	}
+	
+	public static void insertTopicPostErrorAlert() {
+
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Remove Post Error");
+		alert.setContentText("Error: You can't insert post with empty fields. Retry!");
+
+		alert.showAndWait();
+	}
 
 	public static VBox getInsertTopicPostScene() {
 
@@ -65,7 +87,16 @@ public class InsertTopicPostGUI {
 					post.setArgomento(topicPostField.getText());
 					post.setDescrizione(descriptionField.getText());
 					
-					ctrlTopicPost.insertTopicPost(post);
+					int res = ctrlTopicPost.insertTopicPost(post);
+					
+					if(res==-1) {
+						
+						insertTopicPostErrorAlert();
+						
+					} else {
+						
+						insertTopicPostAlert();
+					}
 					
 					titlePostField.clear();
 					descriptionField.clear();
